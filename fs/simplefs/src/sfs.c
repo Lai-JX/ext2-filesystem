@@ -74,10 +74,12 @@ int sfs_mkdir(const char* path, mode_t mode) {
 	struct sfs_dentry* dentry;
 	struct sfs_inode*  inode;
 
+	// 文件名已存在
 	if (is_find) {
 		return -SFS_ERROR_EXISTS;
 	}
 
+	// 在文件下创建文件夹
 	if (SFS_IS_REG(last_dentry->inode)) {
 		return -SFS_ERROR_UNSUPPORTED;
 	}
@@ -86,7 +88,7 @@ int sfs_mkdir(const char* path, mode_t mode) {
 	dentry = new_dentry(fname, SFS_DIR); 
 	dentry->parent = last_dentry;
 	inode  = sfs_alloc_inode(dentry);
-	sfs_alloc_dentry(last_dentry->inode, dentry);
+	sfs_alloc_dentry(last_dentry->inode, dentry);	// 将dentry添加到last->dentry的inode中
 	
 	return SFS_ERROR_NONE;
 }
@@ -99,11 +101,13 @@ int sfs_mkdir(const char* path, mode_t mode) {
  */
 int sfs_getattr(const char* path, struct stat * sfs_stat) {
 	boolean	is_find, is_root;
+	// 首先找到路径所对应的目录项
 	struct sfs_dentry* dentry = sfs_lookup(path, &is_find, &is_root);
 	if (is_find == FALSE) {
 		return -SFS_ERROR_NOTFOUND;
 	}
 
+	// 判断目录项的文件类型并对状态进行编写
 	if (SFS_IS_DIR(dentry->inode)) {
 		sfs_stat->st_mode = S_IFDIR | SFS_DEFAULT_PERM;
 		sfs_stat->st_size = dentry->inode->dir_cnt * sizeof(struct sfs_dentry_d);
@@ -161,7 +165,7 @@ int sfs_readdir(const char * path, void * buf, fuse_fill_dir_t filler, off_t off
 		inode = dentry->inode;
 		sub_dentry = sfs_get_dentry(inode, cur_dir);
 		if (sub_dentry) {
-			filler(buf, sub_dentry->fname, NULL, ++offset);
+			filler(buf, sub_dentry->fname, NULL, ++offset);	// 调用filler(buf, fname, NULL, ++offset)表示将fname放入buf中，并使目录项偏移加一，代表下一次访问下一个目录项
 		}
 		return SFS_ERROR_NONE;
 	}
@@ -183,6 +187,7 @@ int sfs_mknod(const char* path, mode_t mode, dev_t dev) {
 	struct sfs_inode* inode;
 	char* fname;
 	
+	// 文件已存在
 	if (is_find == TRUE) {
 		return -SFS_ERROR_EXISTS;
 	}

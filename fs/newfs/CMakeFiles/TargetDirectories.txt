@@ -1,0 +1,3 @@
+/home/students/200110515/user-land-filesystem/fs/newfs/CMakeFiles/newfs.dir
+/home/students/200110515/user-land-filesystem/fs/newfs/CMakeFiles/edit_cache.dir
+/home/students/200110515/user-land-filesystem/fs/newfs/CMakeFiles/rebuild_cache.dir

@@ -75,11 +75,11 @@ struct sfs_inode;
 struct sfs_super;
 
 struct custom_options {
-	const char*        device;
+	const char*        device;  // 驱动的路径
 	boolean            show_help;
 };
 
-struct sfs_inode
+struct sfs_inode    /*内存中inode的数据结构*/
 {
     int                ino;                           /* 在inode位图中的下标 */
     int                size;                          /* 文件已占用空间 */
@@ -90,7 +90,7 @@ struct sfs_inode
     uint8_t*           data;           
 };  
 
-struct sfs_dentry
+struct sfs_dentry   /*内存中目录项的数据结构*/
 {
     char               fname[SFS_MAX_FILE_NAME];
     struct sfs_dentry* parent;                        /* 父亲Inode的dentry */
@@ -98,28 +98,31 @@ struct sfs_dentry
     int                ino;
     struct sfs_inode*  inode;                         /* 指向inode */
     SFS_FILE_TYPE      ftype;
+    /*缺一个是否有效的标志？*/
 };
 
-struct sfs_super
+struct sfs_super    /*内存中超级块的数据结构*/
 {
     int                driver_fd;
     
-    int                sz_io;
-    int                sz_disk;
+    int                sz_io;   /*单次io大小*/
+    int                sz_disk; /*磁盘大小*/
     int                sz_usage;
     
-    int                max_ino;
-    uint8_t*           map_inode;
-    int                map_inode_blks;
-    int                map_inode_offset;
+    int                max_ino;         
+    uint8_t*           map_inode;       /*inode的位图*/
+    int                map_inode_blks;  /*inode位图所占的数据块*/
+    int                map_inode_offset;/*inode位图的起始地址*/
+
+    /*缺乏数据块的位图*/
     
-    int                data_offset;
+    int                data_offset; /*数据块的起始地址*/
 
-    boolean            is_mounted;
+    boolean            is_mounted;  /*是否已装载*/
 
-    struct sfs_dentry* root_dentry;
+    struct sfs_dentry* root_dentry; /*根目录*/
 };
-
+/*根据名字和文件类型新建一个目录项*/
 static inline struct sfs_dentry* new_dentry(char * fname, SFS_FILE_TYPE ftype) {
     struct sfs_dentry * dentry = (struct sfs_dentry *)malloc(sizeof(struct sfs_dentry));
     memset(dentry, 0, sizeof(struct sfs_dentry));
@@ -131,15 +134,15 @@ static inline struct sfs_dentry* new_dentry(char * fname, SFS_FILE_TYPE ftype) {
     dentry->brother = NULL;                                            
 }
 /******************************************************************************
-* SECTION: FS Specific Structure - Disk structure
+* SECTION: FS Specific Structure - Disk structure（磁盘中的数据结构）
 *******************************************************************************/
 struct sfs_super_d
 {
-    uint32_t           magic_num;
+    uint32_t           magic_num;       // 幻数。用于识别文件系统
     int                sz_usage;
     
-    int                max_ino;
-    int                map_inode_blks;
+    int                max_ino;         // 最多支持的文件数
+    int                map_inode_blks;  // inode位图占用的块数
     int                map_inode_offset;
     int                data_offset;
 };
