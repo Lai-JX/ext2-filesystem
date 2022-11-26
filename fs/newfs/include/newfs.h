@@ -54,5 +54,6 @@ int 			   newfs_umount();
 struct newfs_dentry *newfs_lookup(const char *, boolean *, boolean *);
 int 		   	   newfs_calc_lvl(const char *);
 char* 			   newfs_get_fname(const char* );
+struct newfs_dentry *newfs_get_dentry(struct newfs_inode *, int);
 
 #endif  /* _newfs_H_ */

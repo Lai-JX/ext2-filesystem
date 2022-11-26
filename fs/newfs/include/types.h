@@ -40,6 +40,8 @@ typedef enum newfs_file_type {
 #define NEWFS_SUPER_OFS           0
 #define NEWFS_ROOT_INO            2
 
+#define NEWFS_DEFAULT_PERM        0777
+
 /******************************************************************************
 * SECTION: Macro Function
 *******************************************************************************/

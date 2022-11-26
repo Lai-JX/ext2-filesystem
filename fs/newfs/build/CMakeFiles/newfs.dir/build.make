@@ -73,29 +73,29 @@ CMakeFiles/newfs.dir/src/newfs.c.o: CMakeFiles/newfs.dir/flags.make
 CMakeFiles/newfs.dir/src/newfs.c.o: ../src/newfs.c
 CMakeFiles/newfs.dir/src/newfs.c.o: CMakeFiles/newfs.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/students/200110515/user-land-filesystem/fs/newfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/newfs.dir/src/newfs.c.o"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/newfs.dir/src/newfs.c.o -MF CMakeFiles/newfs.dir/src/newfs.c.o.d -o CMakeFiles/newfs.dir/src/newfs.c.o -c /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs.c
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/newfs.dir/src/newfs.c.o -MF CMakeFiles/newfs.dir/src/newfs.c.o.d -o CMakeFiles/newfs.dir/src/newfs.c.o -c /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs.c
 
 CMakeFiles/newfs.dir/src/newfs.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/newfs.dir/src/newfs.c.i"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs.c > CMakeFiles/newfs.dir/src/newfs.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs.c > CMakeFiles/newfs.dir/src/newfs.c.i
 
 CMakeFiles/newfs.dir/src/newfs.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/newfs.dir/src/newfs.c.s"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs.c -o CMakeFiles/newfs.dir/src/newfs.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs.c -o CMakeFiles/newfs.dir/src/newfs.c.s
 
 CMakeFiles/newfs.dir/src/newfs_utils.c.o: CMakeFiles/newfs.dir/flags.make
 CMakeFiles/newfs.dir/src/newfs_utils.c.o: ../src/newfs_utils.c
 CMakeFiles/newfs.dir/src/newfs_utils.c.o: CMakeFiles/newfs.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/students/200110515/user-land-filesystem/fs/newfs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/newfs.dir/src/newfs_utils.c.o"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/newfs.dir/src/newfs_utils.c.o -MF CMakeFiles/newfs.dir/src/newfs_utils.c.o.d -o CMakeFiles/newfs.dir/src/newfs_utils.c.o -c /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs_utils.c
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/newfs.dir/src/newfs_utils.c.o -MF CMakeFiles/newfs.dir/src/newfs_utils.c.o.d -o CMakeFiles/newfs.dir/src/newfs_utils.c.o -c /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs_utils.c
 
 CMakeFiles/newfs.dir/src/newfs_utils.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/newfs.dir/src/newfs_utils.c.i"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs_utils.c > CMakeFiles/newfs.dir/src/newfs_utils.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs_utils.c > CMakeFiles/newfs.dir/src/newfs_utils.c.i
 
 CMakeFiles/newfs.dir/src/newfs_utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/newfs.dir/src/newfs_utils.c.s"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs_utils.c -o CMakeFiles/newfs.dir/src/newfs_utils.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/students/200110515/user-land-filesystem/fs/newfs/src/newfs_utils.c -o CMakeFiles/newfs.dir/src/newfs_utils.c.s
 
 # Object files for target newfs
 newfs_OBJECTS = \

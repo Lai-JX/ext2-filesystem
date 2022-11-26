@@ -316,7 +316,7 @@ char* newfs_get_fname(const char* path) {
  * @return struct sfs_inode* 
  */
 struct newfs_dentry* newfs_lookup(const char * path, boolean* is_find, boolean* is_root) {
-    struct newfs_dentry* dentry_cursor = super.root_dentry;
+    struct newfs_dentry *dentry_cursor = super.root_dentry;
     struct newfs_dentry* dentry_ret = NULL;
     struct newfs_inode*  inode; 
     int   total_lvl = newfs_calc_lvl(path);
@@ -504,7 +504,8 @@ int newfs_mount(struct custom_options options){
     root_inode            = newfs_read_inode(root_dentry, NEWFS_ROOT_INO);
     root_dentry->inode    = root_inode;
     super.root_dentry = root_dentry;
-    super.is_mounted  = TRUE;
+    printf("root_dentry_name:%s\n", root_dentry->name);
+    super.is_mounted = TRUE;
 
     // newfs_dump_map();
     return ret;
@@ -515,7 +516,8 @@ int newfs_mount(struct custom_options options){
  * @return int 
  */
 int newfs_umount() {
-    struct newfs_super_d  newfs_super_d; 
+    printf("\numount\n");
+    struct newfs_super_d newfs_super_d;
 
     if (!super.is_mounted) {
         return NEWFS_ERROR_NONE;
@@ -558,4 +560,24 @@ int newfs_umount() {
     ddriver_close(NEWFS_DRIVER());
 
     return NEWFS_ERROR_NONE;
+}
+/**
+ * 获取目录项 
+ * 
+ * @param inode 
+ * @param dir [0...]
+ * @return struct sfs_dentry* 
+ */
+struct newfs_dentry* newfs_get_dentry(struct newfs_inode * inode, int dir) {
+    struct newfs_dentry* dentry_cursor = inode->dentrys;
+    int    cnt = 0;
+    while (dentry_cursor)
+    {
+        if (dir == cnt) {
+            return dentry_cursor;
+        }
+        cnt++;
+        dentry_cursor = dentry_cursor->brother;
+    }
+    return NULL;
 }
