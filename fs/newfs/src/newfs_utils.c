@@ -504,7 +504,8 @@ int newfs_mount(struct custom_options options){
     root_inode            = newfs_read_inode(root_dentry, NEWFS_ROOT_INO);
     root_dentry->inode    = root_inode;
     super.root_dentry = root_dentry;
-    printf("root_dentry_name:%s\n", root_dentry->name);
+    // printf("root_dentry_name:%s\n", root_dentry->name);
+    // printf("io_size:%u\n",super.sz_io);
     super.is_mounted = TRUE;
 
     // newfs_dump_map();
