@@ -55,5 +55,7 @@ struct newfs_dentry *newfs_lookup(const char *, boolean *, boolean *);
 int 		   	   newfs_calc_lvl(const char *);
 char* 			   newfs_get_fname(const char* );
 struct newfs_dentry *newfs_get_dentry(struct newfs_inode *, int);
+int 			   newfs_drop_inode(struct newfs_inode *);
+int 			   newfs_drop_dentry(struct newfs_inode *, struct newfs_dentry *);
 
 #endif  /* _newfs_H_ */
