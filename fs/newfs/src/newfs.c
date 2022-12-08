@@ -107,7 +107,7 @@ int newfs_mkdir(const char* path, mode_t mode) {
 	dentry = new_dentry(fname, NEWFS_DIR); 	// 新建目录项
 	dentry->parent = last_dentry;			
 	inode  = newfs_alloc_inode(dentry);		// 为目录项分配指向的inode
-	newfs_alloc_dentry(last_dentry->inode, dentry);	// 将dentry添加到last->dentry的inode中
+	newfs_alloc_dentry(last_dentry->inode, dentry);	// 将dentry添加到last_dentry的inode中
 	
 	return NEWFS_ERROR_NONE;
 }
@@ -278,8 +278,8 @@ int newfs_write(const char* path, const char* buf, size_t size, off_t offset,
 	if (NEWFS_IS_DIR(inode)) {
 		return -NEWFS_ERROR_ISDIR;	
 	}
-	printf("inode->size:%u\n", inode->size);
-	printf("offset:%ld", offset);
+	// printf("inode->size:%u\n", inode->size);
+	// printf("offset:%ld", offset);
 	if (inode->size < offset)
 	{
 		return -NEWFS_ERROR_SEEK;
@@ -443,9 +443,7 @@ int main(int argc, char **argv)
 
 	if (fuse_opt_parse(&args, &newfs_options, option_spec, NULL) == -1)
 		return -1;
-	// printf("begin\n");
 	ret = fuse_main(args.argc, args.argv, &operations, NULL);
-	// printf("%d\n", ret);
 	fuse_opt_free_args(&args);
 	return ret;
 }

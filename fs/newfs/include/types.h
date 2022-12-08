@@ -83,12 +83,12 @@ struct newfs_super {
     
     uint32_t           max_ino;         
     uint8_t*           map_inode;       /*inode的位图*/
-    int                map_inode_blks;  /*inode位图所占的数据块*/
+    uint32_t           map_inode_blks;  /*inode位图所占的数据块*/
     uint32_t           map_inode_offset;/*inode位图的起始地址*/
 
     /*数据块的位图*/    
     uint8_t*           map_data;        /*数据块的位图*/
-    int                map_data_blks;  /*数据块位图所占的数据块*/
+    uint32_t           map_data_blks;  /*数据块位图所占的数据块*/
     uint32_t           map_data_offset;/*数据块位图的起始地址*/
 
     uint32_t           inode_offset;    /*索引节点起始地址*/   
@@ -115,7 +115,7 @@ struct newfs_inode {
 };
 
 struct newfs_dentry {
-    char     name[MAX_NAME_LEN];
+    char     name[MAX_NAME_LEN];                        /*目录项指向的文件的名称*/
     uint32_t ino;
     /* TODO: Define yourself */
     struct newfs_dentry* parent;                        /* 父亲Inode的dentry */

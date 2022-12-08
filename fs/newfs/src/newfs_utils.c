@@ -427,7 +427,7 @@ int newfs_mount(struct custom_options options){
     int                     map_data_blks;      /*data位图占的块数*/
     int                     inode_blks;         /*inode占的块数*/
 
-    int                     super_blks;
+    int                     super_blks;         /*超级块占用块数*/
     boolean                 is_init = FALSE;
 
     super.is_mounted = FALSE;
@@ -472,14 +472,14 @@ int newfs_mount(struct custom_options options){
         // 数据位图占用块数                                                      
         // map_data_blks =  NEWFS_ROUND_UP(NEWFS_ROUND_UP(block_num, UINT32_BITS), NEWFS_IO_SZ()) 
         //                  / NEWFS_BLK_SZ();
-        map_data_blks = 2;  /*数据位图占用2个块*/
+        map_data_blks = 1;  /*数据位图占用1个块*/
 
         /* 布局layout */
-        newfs_super_d.max_ino = (inode_num - super_blks - map_inode_blks - map_data_blks);              //  
+        newfs_super_d.max_ino = (inode_num - super_blks - map_inode_blks - map_data_blks);              /*最大inode(文件)数*/  
         newfs_super_d.map_inode_offset = NEWFS_SUPER_OFS + NEWFS_BLKS_SZ(super_blks);                   /*inode位图的地址偏移量*/
         newfs_super_d.map_data_offset = newfs_super_d.map_inode_offset + NEWFS_BLKS_SZ(map_inode_blks); /*数据位图的地址偏移量*/
         newfs_super_d.inode_offset = newfs_super_d.map_data_offset + NEWFS_BLKS_SZ(map_data_blks);      /*存放inode起始偏移量*/
-        newfs_super_d.data_offset = newfs_super_d.map_inode_offset + NEWFS_BLKS_SZ(inode_blks);         /*存放inode起始偏移量*/
+        newfs_super_d.data_offset = newfs_super_d.map_inode_offset + NEWFS_BLKS_SZ(inode_blks);         /*存放data起始偏移量*/
         newfs_super_d.map_inode_blks  = map_inode_blks;
         newfs_super_d.map_data_blks = map_data_blks;
         newfs_super_d.sz_usage = 0;
@@ -517,7 +517,7 @@ int newfs_mount(struct custom_options options){
     // 初始化根目录项
     if (is_init) {                                    /* 分配根节点 */
         root_inode = newfs_alloc_inode(root_dentry);    // 为根目录项创建inode节点
-        newfs_sync_inode(root_inode);
+        newfs_sync_inode(root_inode);                   // 清空该inode节点
     }
     
     root_inode            = newfs_read_inode(root_dentry, NEWFS_ROOT_INO);
