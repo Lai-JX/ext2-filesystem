@@ -45,7 +45,7 @@ int   			   newfs_opendir(const char *, struct fuse_file_info *);
 *******************************************************************************/
 int 			   newfs_mount(struct custom_options);
 int 			   newfs_driver_read(int, uint8_t *, int);
-struct newfs_inode *newfs_alloc_inode(struct newfs_dentry *);
+struct newfs_inode *newfs_alloc_inode(struct newfs_dentry *, boolean);
 int 			   newfs_sync_inode(struct newfs_inode *);
 int 			   newfs_driver_write(int, uint8_t *, int);
 struct newfs_inode *newfs_read_inode(struct newfs_dentry *, int);

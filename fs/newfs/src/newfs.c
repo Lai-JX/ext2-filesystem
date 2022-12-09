@@ -106,7 +106,7 @@ int newfs_mkdir(const char* path, mode_t mode) {
 	fname  = newfs_get_fname(path);			// 获取文件名
 	dentry = new_dentry(fname, NEWFS_DIR); 	// 新建目录项
 	dentry->parent = last_dentry;			
-	inode  = newfs_alloc_inode(dentry);		// 为目录项分配指向的inode
+	inode  = newfs_alloc_inode(dentry, FALSE);		// 为目录项分配指向的inode
 	newfs_alloc_dentry(last_dentry->inode, dentry);	// 将dentry添加到last_dentry的inode中
 	
 	return NEWFS_ERROR_NONE;
@@ -182,8 +182,8 @@ int newfs_readdir(const char * path, void * buf, fuse_fill_dir_t filler, off_t o
     // return 0;
 	boolean	is_find, is_root;
 	int		cur_dir = offset;
-
-	struct newfs_dentry* dentry = newfs_lookup(path, &is_find, &is_root);
+	printf("offset:%d\n", offset);
+	struct newfs_dentry *dentry = newfs_lookup(path, &is_find, &is_root);
 	struct newfs_dentry* sub_dentry;
 	struct newfs_inode* inode;
 	if (is_find) {
@@ -232,7 +232,7 @@ int newfs_mknod(const char* path, mode_t mode, dev_t dev) {
 		dentry = new_dentry(fname, NEWFS_REG_FILE);
 	}
 	dentry->parent = last_dentry;
-	inode = newfs_alloc_inode(dentry);
+	inode = newfs_alloc_inode(dentry, FALSE);
 	newfs_alloc_dentry(last_dentry->inode, dentry);
 
 	return NEWFS_ERROR_NONE;

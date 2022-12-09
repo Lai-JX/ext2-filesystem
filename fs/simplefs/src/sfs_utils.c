@@ -569,7 +569,7 @@ int sfs_mount(struct custom_options options){
         return -SFS_ERROR_IO;
     }
     // 初始化根目录项
-    if (is_init) {                                    /* 分配根节点 */
+    if (is_init) {                                    /* 分配根节点 主要是为了在位图中声明占用 */
         root_inode = sfs_alloc_inode(root_dentry);    // 为目录项创建inode节点
         sfs_sync_inode(root_inode);
     }

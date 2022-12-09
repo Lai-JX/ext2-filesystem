@@ -67,31 +67,38 @@ int newfs_driver_write(int offset, uint8_t *in_content, int size) {
  * @param dentry 该dentry指向分配的inode
  * @return sfs_inode
  */
-struct newfs_inode* newfs_alloc_inode(struct newfs_dentry * dentry) {
+struct newfs_inode* newfs_alloc_inode(struct newfs_dentry * dentry, boolean is_root) {
     struct newfs_inode* inode;
     int byte_cursor = 0; 
     int bit_cursor  = 0; 
     int ino_cursor  = 0;
     boolean is_find_free_entry = FALSE;
 
-    // 在inode位图上寻找未使用的inode
-    for (byte_cursor = 0; byte_cursor < NEWFS_BLKS_SZ(super.map_inode_blks); 
-         byte_cursor++)
+    if(is_root){    // EXT2中根目录索引号为2
+        super.map_inode[0] |= (1 << (NEWFS_ROOT_INO));  // 标记为占用
+        ino_cursor = NEWFS_ROOT_INO;
+        is_find_free_entry = TRUE; 
+    }
+    else
     {
-        for (bit_cursor = 0; bit_cursor < UINT8_BITS; bit_cursor++) {
-            if((super.map_inode[byte_cursor] & (0x1 << bit_cursor)) == 0) {    
-                                                      /* 当前ino_cursor位置空闲 */
-                super.map_inode[byte_cursor] |= (0x1 << bit_cursor);
-                is_find_free_entry = TRUE;           
+        // 在inode位图上寻找未使用的inode
+        for (byte_cursor = 0; byte_cursor < NEWFS_BLKS_SZ(super.map_inode_blks); 
+            byte_cursor++)
+        {
+            for (bit_cursor = 0; bit_cursor < UINT8_BITS; bit_cursor++) {
+                if((super.map_inode[byte_cursor] & (0x1 << bit_cursor)) == 0) {    
+                                                        /* 当前ino_cursor位置空闲 */
+                    super.map_inode[byte_cursor] |= (0x1 << bit_cursor);
+                    is_find_free_entry = TRUE;           
+                    break;
+                }
+                ino_cursor++;
+            }
+            if (is_find_free_entry) {
                 break;
             }
-            ino_cursor++;
-        }
-        if (is_find_free_entry) {
-            break;
         }
     }
-
     if (!is_find_free_entry || ino_cursor == super.max_ino)
         return -NEWFS_ERROR_NOSPACE;
     // 为目录项分配inode节点，并建立他们之间的链接
@@ -451,8 +458,10 @@ int newfs_mount(struct custom_options options){
     if (newfs_driver_read(NEWFS_SUPER_OFS, (uint8_t *)(&newfs_super_d), 
                         sizeof(struct newfs_super_d)) != NEWFS_ERROR_NONE) {
         return -NEWFS_ERROR_IO;
-    }   
-
+    }
+    // printf("aa\t");
+    // printf("first time to open dick:");
+    // printf("first time to open dick:%d\n", newfs_super_d.magic_num != NEWFS_MAGIC_NUM);
 
     // 根据超级块幻数判断是否为第一次启动磁盘，如果是第一次启动磁盘，则需要建立磁盘超级块的布局                                                  /* 读取super */
     if (newfs_super_d.magic_num != NEWFS_MAGIC_NUM) {     /* 幻数无 */
@@ -516,7 +525,7 @@ int newfs_mount(struct custom_options options){
 
     // 初始化根目录项
     if (is_init) {                                    /* 分配根节点 */
-        root_inode = newfs_alloc_inode(root_dentry);    // 为根目录项创建inode节点
+        root_inode = newfs_alloc_inode(root_dentry, TRUE);    // 为根目录项创建inode节点，主要是为了标记位图
         newfs_sync_inode(root_inode);                   // 清空该inode节点
     }
     
