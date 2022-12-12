@@ -182,8 +182,9 @@ int newfs_readdir(const char * path, void * buf, fuse_fill_dir_t filler, off_t o
     // return 0;
 	boolean	is_find, is_root;
 	int		cur_dir = offset;
-	printf("offset:%d\n", offset);
+	printf("readdir offset:%d\n", offset);
 	struct newfs_dentry *dentry = newfs_lookup(path, &is_find, &is_root);
+	printf("readdir name:%s\n", dentry->name);
 	struct newfs_dentry* sub_dentry;
 	struct newfs_inode* inode;
 	if (is_find) {
@@ -333,18 +334,22 @@ int newfs_read(const char* path, char* buf, size_t size, off_t offset,
  * @return int 0成功，否则失败
  */
 int newfs_unlink(const char* path) {
-	boolean	is_find, is_root;
-	struct newfs_dentry* dentry = newfs_lookup(path, &is_find, &is_root);
+	printf("ljx:unlink!\n");
+	boolean is_find, is_root;
+	printf("path:%s\n", path);
+	struct newfs_dentry *dentry = newfs_lookup(path, &is_find, &is_root);
 	struct newfs_inode*  inode;
-
-	if (is_find == FALSE) {
+	printf("is_find:%d\n", is_find);
+	if (is_find == FALSE)
+	{
 		return -NEWFS_ERROR_NOTFOUND;
 	}
 
 	inode = dentry->inode;
 
 	newfs_drop_inode(inode);
-	newfs_drop_dentry(dentry->parent->inode, dentry);
+	printf("drop dentry cnt before:%d\n",dentry->parent->inode->dir_cnt);
+	printf("drop dentry cnt after:%d\n",newfs_drop_dentry(dentry->parent->inode, dentry));
 	return NEWFS_ERROR_NONE;
 }
 
@@ -361,8 +366,8 @@ int newfs_unlink(const char* path) {
  * @return int 0成功，否则失败
  */
 int newfs_rmdir(const char* path) {
+	printf("ljx:rmdir\n");
 	return newfs_unlink(path);
-
 }
 
 /**

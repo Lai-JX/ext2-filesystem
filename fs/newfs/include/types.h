@@ -32,7 +32,7 @@ typedef enum newfs_file_type {
 #define NEWFS_ERROR_IO            EIO     /* Error Input/Output */
 #define NEWFS_ERROR_INVAL         EINVAL  /* Invalid Args */
 
-#define MAX_NAME_LEN              128   
+#define MAX_NAME_LEN              64   
 #define NEWFS_DATA_PER_FILE       6     /*一个文件有6块*/
 #define NEWFS_INODE_PER_FILE      128   /*一个inode节点占128字节*/
 
